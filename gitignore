@@ -1,0 +1,12 @@
+# Raw audio used to build the database — not needed at runtime
+EE200 Project Song Database/
+EE200 Project Song Database-20260618T1641*/
+
+# Python / Jupyter junk
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# OS junk
+.DS_Store
+Thumbs.db

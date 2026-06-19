@@ -1,0 +1,7 @@
+streamlit
+librosa
+numpy==2.1.3
+pandas
+matplotlib
+requests
+scipy==1.15.3
