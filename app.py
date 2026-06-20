@@ -1,11 +1,3 @@
-"""
-WaveMind
-
-Course project for EE200.
-Implements a simplified audio fingerprinting system inspired by
-constellation-map based matching techniques.
-"""
-
 import pickle, io, math, time, urllib.parse
 import streamlit as st
 import librosa, librosa.display
@@ -19,6 +11,8 @@ from scipy.signal import spectrogram
 from scipy.ndimage import maximum_filter
 
 st.set_page_config(page_title="WaveMind", page_icon="🎵", layout="wide", initial_sidebar_state="collapsed")
+
+# CSS FOR UI
 
 st.markdown("""<style>
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;600&display=swap');
@@ -124,16 +118,16 @@ st.markdown("""
 <div class="shimmer-line" style="height:2px;margin:0 0 1.5rem;box-shadow:0 0 14px #00E5FF55"></div>
 """, unsafe_allow_html=True)
 
-# Database ────────────────────────────────────────────────────────────────────────
+# Database
 
 @st.cache_resource(show_spinner=False)
 def load_db():
     with open("database.pkl","rb") as f:
         db=pickle.load(f)
 
-    return db, sorted({s for v in db.values() for s,_ in v})
+    return db,sorted({s for v in db.values() for s,_ in v})
 
-database, songs = load_db()
+database, songs =load_db()
 DB_SR = 48000
 
 c1,c2,c3,c4=st.columns(4)
@@ -145,11 +139,7 @@ c4.metric("⚡ Status","Online")
 
 st.markdown('<div style="height:1px;background:#ffffff08;margin:.5rem 0 1rem"></div>',unsafe_allow_html=True)
 
-# Fingerprinting pipeline ────────────────────────────────────────
-# Three steps, same idea as Shazam's original algorithm:
-#   1) gen_hashes()     -> turn audio into a set of (freq-pair, time-gap) hashes
-#   2) _match_segment()  -> look those hashes up in the song database, get votes
-#   3) identify()        -> repeat step 1-2 on a few windows of the clip, combine votes
+# Fingerprinting pipeline
 
 def gen_hashes(y, sr, n_peaks=300, fan=10):
     """
@@ -290,7 +280,7 @@ def hash_counts():
             hc[s]=hc.get(s,0)+1
     return hc
 
-#  PLOTS
+#  All PLOTS
 
 BG,CYAN,PURPLE,GREEN,PINK="#070714","#00E5FF","#BF00FF","#00FF99","#FF00AA"
 
