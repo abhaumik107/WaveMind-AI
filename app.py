@@ -17,6 +17,12 @@ st.set_page_config(page_title="WaveMind", page_icon="🎵", layout="wide", initi
 st.markdown("""<style>
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@400;600&display=swap');
 [data-testid="stSidebar"],[data-testid="collapsedControl"]{display:none!important}
+header[data-testid="stHeader"]{display:none!important}
+[data-testid="stToolbar"]{display:none!important}
+[data-testid="stDecoration"]{display:none!important}
+#MainMenu{display:none!important}
+footer{display:none!important}
+html,body,[data-testid="stAppViewContainer"],[data-testid="stMain"]{background:#050510!important;color:#e0e0ff!important;font-family:'Inter',sans-serif!important}
 html,body,[data-testid="stAppViewContainer"],[data-testid="stMain"]{background:#050510!important;color:#e0e0ff!important;font-family:'Inter',sans-serif!important}
 .block-container{padding:0 2.5rem 2rem!important;max-width:100%!important}
 h1,h2,h3{font-family:'Orbitron',monospace!important}
