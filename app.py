@@ -22,106 +22,34 @@ header[data-testid="stHeader"]{display:none!important}
 [data-testid="stDecoration"]{display:none!important}
 #MainMenu{display:none!important}
 footer{display:none!important}
-html,body,[data-testid="stAppViewContainer"],[data-testid="stMain"]{background:#050510!important;color:#e0e0ff!important;font-family:'Inter',sans-serif!important}
-html,body,[data-testid="stAppViewContainer"],[data-testid="stMain"]{background:#050510!important;color:#e0e0ff!important;font-family:'Inter',sans-serif!important}
+html,body,[data-testid="stAppViewContainer"],[data-testid="stMain"]{background:#0a0a14!important;color:#d8d8ec!important;font-family:'Inter',sans-serif!important}
 .block-container{padding:0 2.5rem 2rem!important;max-width:100%!important}
 h1,h2,h3{font-family:'Orbitron',monospace!important}
-h1{color:#00E5FF!important;text-shadow:0 0 30px #00E5FF55}
-[data-testid="stTabs"] button{color:#444466!important;font-weight:600!important;border-bottom:2px solid transparent!important;transition:all .3s!important}
-[data-testid="stTabs"] button[aria-selected="true"]{color:#00E5FF!important;border-bottom:2px solid #00E5FF!important}
-div[data-testid="stMetric"]{background:#0a0a2e!important;border:1px solid #00E5FF22!important;border-radius:14px!important;padding:1rem 1.2rem!important;transition:all .3s!important}
-div[data-testid="stMetric"]:hover{border-color:#00E5FF55!important;transform:translateY(-2px)}
-div[data-testid="stMetric"] label{color:#00E5FF!important;font-size:.72rem!important;letter-spacing:2px!important}
-div[data-testid="stMetric"] [data-testid="stMetricValue"]{color:#fff!important;font-size:1.5rem!important;font-weight:700!important;font-family:'Orbitron',monospace!important}
-[data-testid="stFileUploader"]{background:#0a0a2e!important;border:1px dashed #BF00FF44!important;border-radius:16px!important;padding:.8rem!important}
-.stButton>button{background:transparent!important;border:1px solid #00E5FF44!important;color:#00E5FF!important;border-radius:10px!important;font-weight:600!important;transition:all .3s!important}
-.stButton>button:hover{border-color:#00E5FF!important;box-shadow:0 0 20px #00E5FF33!important}
-[data-testid="stDownloadButton"]>button{background:transparent!important;border:1px solid #00E5FF44!important;color:#00E5FF!important;border-radius:10px!important}
-[data-testid="stExpander"]{background:#0a0a2e!important;border:1px solid #ffffff0d!important;border-radius:14px!important;overflow:hidden!important}
+h1{color:#00C2D6!important}
+[data-testid="stTabs"] button{color:#5a5a78!important;font-weight:600!important;border-bottom:2px solid transparent!important;transition:color .2s,border-color .2s!important}
+[data-testid="stTabs"] button[aria-selected="true"]{color:#00C2D6!important;border-bottom:2px solid #00C2D6!important}
+div[data-testid="stMetric"]{background:#12121f!important;border:1px solid #ffffff14!important;border-radius:10px!important;padding:1rem 1.2rem!important}
+div[data-testid="stMetric"] label{color:#8a8aae!important;font-size:.72rem!important;letter-spacing:1.5px!important}
+div[data-testid="stMetric"] [data-testid="stMetricValue"]{color:#fff!important;font-size:1.4rem!important;font-weight:700!important;font-family:'Orbitron',monospace!important}
+[data-testid="stFileUploader"]{background:#12121f!important;border:1px solid #ffffff1a!important;border-radius:12px!important;padding:.8rem!important}
+.stButton>button{background:transparent!important;border:1px solid #ffffff2a!important;color:#00C2D6!important;border-radius:8px!important;font-weight:600!important;transition:border-color .2s!important}
+.stButton>button:hover{border-color:#00C2D6!important}
+[data-testid="stDownloadButton"]>button{background:transparent!important;border:1px solid #ffffff2a!important;color:#00C2D6!important;border-radius:8px!important}
+[data-testid="stExpander"]{background:#12121f!important;border:1px solid #ffffff0d!important;border-radius:12px!important;overflow:hidden!important}
 audio{filter:invert(1) hue-rotate(180deg);width:100%}
-[data-testid="stProgressBar"]>div>div{background:linear-gradient(90deg,#00E5FF,#BF00FF)!important;border-radius:99px!important}
-[data-testid="stTextInput"] input{background:#0a0a2e!important;border:1px solid #00E5FF22!important;color:#e0e0ff!important;border-radius:10px!important}
+[data-testid="stProgressBar"]>div>div{background:#00C2D6!important;border-radius:99px!important}
+[data-testid="stTextInput"] input{background:#12121f!important;border:1px solid #ffffff1a!important;color:#d8d8ec!important;border-radius:8px!important}
 ::-webkit-scrollbar{width:4px}
-::-webkit-scrollbar-thumb{background:linear-gradient(#00E5FF44,#BF00FF44);border-radius:99px}
-
-@keyframes float{
-    0%,100%{transform:translateY(0)}
-    50%{transform:translateY(-6px)}
-}
-
-@keyframes ringGlow{
-    0%,100%{filter:drop-shadow(0 0 6px #00E5FF)}
-    50%{filter:drop-shadow(0 0 18px #00E5FF)}
-}
-
-@keyframes noteFloat{
-    0%{transform:translateY(0) rotate(0deg);opacity:.85}
-    100%{transform:translateY(-160px) rotate(18deg);opacity:0}
-}
-
-@keyframes pulseGlow{
-    0%,100%{opacity:.5;transform:scale(1)}
-    50%{opacity:1;transform:scale(1.08)}
-}
-
-@keyframes shimmer{
-    0%{background-position:-200% 0}
-    100%{background-position:200% 0}
-}
-
-@keyframes drift{
-    0%{transform:translateX(0) translateY(0)}
-    33%{transform:translateX(12px) translateY(-10px)}
-    66%{transform:translateX(-8px) translateY(6px)}
-    100%{transform:translateX(0) translateY(0)}
-}
-
-.note{
-    position:absolute;
-    bottom:10px;
-    animation:noteFloat 3.6s ease-in-out infinite;
-    pointer-events:none;
-}
-
-.bg-orb{
-    position:absolute;
-    border-radius:50%;
-    filter:blur(60px);
-    opacity:.18;
-    animation:drift 14s ease-in-out infinite;
-    pointer-events:none;
-}
-
-.shimmer-line{
-    background:linear-gradient(90deg,transparent,#00E5FF66,#BF00FF66,#00FF9955,transparent);
-    background-size:200% 100%;
-    animation:shimmer 4s linear infinite;
-}
+::-webkit-scrollbar-thumb{background:#2a2a44;border-radius:99px}
 </style>""", unsafe_allow_html=True)
 
 st.markdown("""
-<div style="position:relative;text-align:center;padding:2.6rem 0 1.2rem;overflow:hidden">
-
-  <div class="bg-orb" style="width:220px;height:220px;background:#00E5FF;top:-60px;left:5%"></div>
-  <div class="bg-orb" style="width:180px;height:180px;background:#BF00FF;top:-40px;right:8%;animation-delay:3s"></div>
-  <div class="bg-orb" style="width:140px;height:140px;background:#00FF99;bottom:-50px;left:40%;animation-delay:6s"></div>
-
-  <div class="note" style="left:8%;font-size:3.6rem;color:#00E5FFdd;animation-delay:0s">♪</div>
-  <div class="note" style="left:20%;font-size:2.8rem;color:#BF00FFdd;animation-delay:.6s">♫</div>
-  <div class="note" style="right:16%;font-size:3.2rem;color:#00FF99dd;animation-delay:1.2s">♩</div>
-  <div class="note" style="right:28%;font-size:2.6rem;color:#FF00AAdd;animation-delay:1.8s">♬</div>
-  <div class="note" style="left:35%;font-size:2.4rem;color:#00E5FFcc;animation-delay:2.4s">♪</div>
-  <div class="note" style="right:42%;font-size:2.5rem;color:#BF00FFcc;animation-delay:3s">♫</div>
-
-  <h1 style="font-size:3rem;letter-spacing:8px;margin-bottom:.1rem;background:linear-gradient(135deg,#00E5FF,#BF00FF,#00FF99);-webkit-background-clip:text;-webkit-text-fill-color:transparent">🌊 WAVEMIND</h1>
-
-  <p style="color:#BF00FF;font-size:.82rem;letter-spacing:5px;margin:0">H E A R &nbsp; B E Y O N D &nbsp; N O I S E</p>
-
-  <p style="color:#ffffff22;font-size:.7rem;letter-spacing:3px;margin-top:.4rem">EE200 · Audio Fingerprinting</p>
-
+<div style="text-align:center;padding:2.4rem 0 1.2rem">
+  <h1 style="font-size:2.3rem;letter-spacing:4px;margin-bottom:.3rem">🌊 WAVEMIND</h1>
+  <p style="color:#6a6a8e;font-size:.78rem;letter-spacing:3px;margin:0">AUDIO FINGERPRINTING &nbsp;·&nbsp; EE200</p>
 </div>
 
-<div class="shimmer-line" style="height:2px;margin:0 0 1.5rem;box-shadow:0 0 14px #00E5FF55"></div>
+<div style="height:1px;background:#ffffff12;margin:0 0 1.5rem"></div>
 """, unsafe_allow_html=True)
 
 # Database
@@ -369,13 +297,13 @@ def conf_ring(pct,color):
     d=c*(pct/100)
 
     return f"""<div style="display:flex;align-items:center;gap:3rem;padding:1.4rem 0">
-  <div style="position:relative;width:210px;height:210px;flex-shrink:0;animation:ringGlow 2s ease-in-out infinite">
+  <div style="position:relative;width:210px;height:210px;flex-shrink:0">
     <svg width="210" height="210" viewBox="0 0 210 210">
       <circle cx="105" cy="105" r="{r}" fill="none" stroke="#ffffff0a" stroke-width="14"/>
-      <circle cx="105" cy="105" r="{r}" fill="none" stroke="{color}" stroke-width="14" stroke-dasharray="{d:.1f} {c-d:.1f}" stroke-dashoffset="{c/4:.1f}" stroke-linecap="round" style="filter:drop-shadow(0 0 10px {color}) drop-shadow(0 0 22px {color}88)"/>
+      <circle cx="105" cy="105" r="{r}" fill="none" stroke="{color}" stroke-width="14" stroke-dasharray="{d:.1f} {c-d:.1f}" stroke-dashoffset="{c/4:.1f}" stroke-linecap="round"/>
     </svg>
     <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center">
-      <div style="font-family:'Orbitron',monospace;font-size:2.7rem;font-weight:900;color:#fff;text-shadow:0 0 20px {color}">{pct:.0f}%</div>
+      <div style="font-family:'Orbitron',monospace;font-size:2.7rem;font-weight:900;color:#fff">{pct:.0f}%</div>
       <div style="font-size:.8rem;letter-spacing:3px;color:{color};font-weight:600;margin-top:2px">CONFIDENCE</div>
     </div>
   </div>
@@ -389,9 +317,9 @@ def runner_up_card(rank, song, score, best_score):
     name=song.replace(".mp3","").replace(".wav","").strip()
     art=album_art(name)
     pct=round(score/max(best_score,1)*100)
-    bar=f'<div style="height:3px;background:linear-gradient(90deg,#00E5FF,#BF00FF);width:{pct}%;border-radius:99px;margin-top:6px"></div>'
+    bar=f'<div style="height:3px;background:#00C2D6;width:{pct}%;border-radius:99px;margin-top:6px"></div>'
     img=f'<img src="{art}" style="width:64px;height:64px;border-radius:8px;object-fit:cover;flex-shrink:0">' if art else '<div style="width:64px;height:64px;background:#0d0d35;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;flex-shrink:0">🎵</div>'
-    return f"""<div style="display:flex;align-items:center;gap:1.1rem;background:#0a0a2e;border:1px solid #ffffff0d;border-radius:12px;padding:1rem 1.3rem;margin-bottom:.6rem">
+    return f"""<div style="display:flex;align-items:center;gap:1.1rem;background:#12121f;border:1px solid #ffffff0d;border-radius:12px;padding:1rem 1.3rem;margin-bottom:.6rem">
       <div style="font-family:'Orbitron',monospace;font-size:1rem;color:#444466;font-weight:700;width:24px">#{rank}</div>
       {img}
       <div style="flex:1;min-width:0">
@@ -439,7 +367,7 @@ with tab1:
                 if art:
                     st.image(art,use_container_width=True)
                 else:
-                    st.markdown('<div style="width:100%;aspect-ratio:1;background:#0a0a2e;border:1px solid #00E5FF15;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.5rem">🎵</div>',unsafe_allow_html=True)
+                    st.markdown('<div style="width:100%;aspect-ratio:1;background:#12121f;border:1px solid #ffffff14;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.5rem">🎵</div>',unsafe_allow_html=True)
 
                 st.markdown(f'<div style="font-size:.68rem;font-weight:600;color:#e0e0ff;font-family:monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="{name}">{name}</div><div style="font-size:.58rem;color:#4a5070;font-family:monospace">{hc.get(song,0):,} hashes</div>',unsafe_allow_html=True)
 
@@ -472,22 +400,22 @@ with tab2:
                 if art:
                     st.image(art,use_container_width=True)
                 else:
-                    st.markdown('<div style="width:100%;aspect-ratio:1;background:#0a0a2e;border:1px solid #00E5FF33;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:6rem">🎵</div>',unsafe_allow_html=True)
+                    st.markdown('<div style="width:100%;aspect-ratio:1;background:#12121f;border:1px solid #ffffff14;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:6rem">🎵</div>',unsafe_allow_html=True)
 
             with col_info:
                 st.markdown(f"""
-<div style="background:linear-gradient(135deg,#0a0a2e,#0d0820);border:1px solid {color}44;border-radius:18px;padding:2rem;box-shadow:0 0 30px {color}0f">
-  <p style="color:{color};font-size:.85rem;letter-spacing:2px;font-family:monospace;margin:0;font-weight:600">✦ MATCH FOUND ✦</p>
+<div style="background:#12121f;border:1px solid #ffffff14;border-radius:14px;padding:2rem">
+  <p style="color:{color};font-size:.85rem;letter-spacing:2px;font-family:monospace;margin:0;font-weight:600">MATCH FOUND</p>
   <p style="color:#fff;font-family:'Orbitron',monospace;font-size:2.8rem;font-weight:700;margin:.3rem 0 1rem;letter-spacing:-.5px">{name}</p>
   <div style="display:flex;gap:1.2rem;flex-wrap:wrap;margin-bottom:.7rem">
-    <span style="background:#ffffff06;border:1px solid {color}22;border-radius:8px;padding:.55rem 1rem;font-family:monospace">
-      <span style="color:#b0b0cc;font-size:.8rem;font-weight:500">RUNTIME</span><br>
+    <span style="background:#ffffff06;border:1px solid #ffffff14;border-radius:8px;padding:.55rem 1rem;font-family:monospace">
+      <span style="color:#8a8aae;font-size:.8rem;font-weight:500">RUNTIME</span><br>
       <span style="color:#fff;font-weight:700;font-size:1.2rem">{rt}s</span></span>
-    <span style="background:#ffffff06;border:1px solid {color}22;border-radius:8px;padding:.55rem 1rem;font-family:monospace">
-      <span style="color:#b0b0cc;font-size:.8rem;font-weight:500">ALIGNED</span><br>
+    <span style="background:#ffffff06;border:1px solid #ffffff14;border-radius:8px;padding:.55rem 1rem;font-family:monospace">
+      <span style="color:#8a8aae;font-size:.8rem;font-weight:500">ALIGNED</span><br>
       <span style="color:#fff;font-weight:700;font-size:1.2rem">{raw} hashes</span></span>
-    <span style="background:#ffffff06;border:1px solid {color}22;border-radius:8px;padding:.55rem 1rem;font-family:monospace">
-      <span style="color:#b0b0cc;font-size:.8rem;font-weight:500">SEGMENTS</span><br>
+    <span style="background:#ffffff06;border:1px solid #ffffff14;border-radius:8px;padding:.55rem 1rem;font-family:monospace">
+      <span style="color:#8a8aae;font-size:.8rem;font-weight:500">SEGMENTS</span><br>
       <span style="color:#fff;font-weight:700;font-size:1.2rem">{min(3,max(1,int(len(y)/sr)//10))}</span></span>
   </div>
   {conf_ring(pct,color)}
@@ -571,5 +499,6 @@ with tab3:
 
         st.download_button("⬇ Download results.csv",df_r[["filename","prediction"]].to_csv(index=False),"results.csv","text/csv",use_container_width=True)
 
-st.markdown("""<div class="shimmer-line" style="height:2px;margin:2rem 0 1rem;box-shadow:0 0 14px #00E5FF44"></div>
-<div style="text-align:center;padding-bottom:1rem"><p style="font-family:'Orbitron',monospace;color:#00E5FF33;letter-spacing:4px;font-size:.72rem">🌊 WAVEMIND &nbsp;·&nbsp; EE200</p></div>""",unsafe_allow_html=True)
+st.markdown("""<div style="height:1px;background:#ffffff12;margin:2rem 0 1rem"></div>
+<div style="text-align:center;padding-bottom:1rem"><p style="font-family:'Orbitron',monospace;color:#3a3a54;letter-spacing:4px;font-size:.72rem">🌊 WAVEMIND &nbsp;·&nbsp; EE200</p></div>""",unsafe_allow_html=True)
+
