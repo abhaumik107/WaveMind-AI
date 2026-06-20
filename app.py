@@ -254,10 +254,19 @@ def identify(audio_bytes, sr):
 def confidence_score(raw,nq,cnt):
     if not cnt or not raw:
         return 0
-    top2=cnt.most_common(2)
+    # Aggregate votes by SONG (summed across all offsets) before comparing
+    # the winner to the runner-up. Comparing raw (song, offset) buckets
+    # directly is unreliable because the correct song's votes get split
+    # across several different offsets (one per analysis segment), so the
+    # top-2 buckets often both belong to the same correct song.
+    by_song=Counter()
+    for (s,_off),sc in cnt.items():
+        by_song[s]+=sc
+    top2=by_song.most_common(2)
+    best=top2[0][1]
     sec=top2[1][1] if len(top2)>1 else 0
-    sel=min(1.0,(raw/max(sec,1)-1)/9) if sec else 1.0
-    cov=min(1.0,raw/max(nq*.005,1))
+    sel=min(1.0,(best/max(sec,1)-1)/9) if sec else 1.0
+    cov=min(1.0,best/max(nq*.005,1))
     return round(min(99,max(45,45+(.7*sel+.3*cov)*54)),1)
 
 def confidence_color(p):
@@ -333,40 +342,46 @@ def plot_constellation(fi,ti):
         sp.set_edgecolor(PURPLE)
     return fig
 
-def plot_offset_histogram(offsets,pred):
+def plot_offset_histogram(cnt,pred):
     fig,ax=_fig(11,4)
-    ov=[o for s,o in offsets if s==pred]
+    ov=[]
+    wt=[]
+    for (s,o),v in cnt.items():
+        if s==pred:
+            ov.append(o)
+            wt.append(v)
     if ov:
-        counts,_,patches=ax.hist(ov,bins=100,color=CYAN,alpha=.15,edgecolor='none')
+        counts,_,patches=ax.hist(ov,bins=100,weights=wt,color=CYAN,alpha=.15,edgecolor='none')
         cm=mcolors.LinearSegmentedColormap.from_list("h",[PURPLE,CYAN,GREEN])
         for p,v in zip(patches,counts):
             p.set_facecolor(cm(v/(counts.max()+1e-9)))
             p.set_alpha(.8)
-        ax.axvline(max(set(ov),key=ov.count),color=GREEN,lw=1.5,ls='--')
+        best_offset=max(zip(ov,wt),key=lambda x:x[1])[0]
+        ax.axvline(best_offset,color=GREEN,lw=1.5,ls='--')
     ax.set_title("Offset Histogram",color=GREEN,fontsize=11,pad=8)
     for sp in ax.spines.values():
         sp.set_edgecolor(GREEN)
     return fig
 
 def conf_ring(pct,color):
-    r=60
+    r=78
     c=2*math.pi*r
     d=c*(pct/100)
 
-    return f"""<div style="display:flex;align-items:center;gap:2.5rem;padding:1.4rem 0">
-  <div style="position:relative;width:160px;height:160px;flex-shrink:0;animation:ringGlow 2s ease-in-out infinite">
-    <svg width="160" height="160" viewBox="0 0 160 160">
-      <circle cx="80" cy="80" r="{r}" fill="none" stroke="#ffffff0a" stroke-width="11"/>
-      <circle cx="80" cy="80" r="{r}" fill="none" stroke="{color}" stroke-width="11" stroke-dasharray="{d:.1f} {c-d:.1f}" stroke-dashoffset="{c/4:.1f}" stroke-linecap="round" style="filter:drop-shadow(0 0 10px {color}) drop-shadow(0 0 22px {color}88)"/>
+    return f"""<div style="display:flex;align-items:center;gap:3rem;padding:1.4rem 0">
+  <div style="position:relative;width:210px;height:210px;flex-shrink:0;animation:ringGlow 2s ease-in-out infinite">
+    <svg width="210" height="210" viewBox="0 0 210 210">
+      <circle cx="105" cy="105" r="{r}" fill="none" stroke="#ffffff0a" stroke-width="14"/>
+      <circle cx="105" cy="105" r="{r}" fill="none" stroke="{color}" stroke-width="14" stroke-dasharray="{d:.1f} {c-d:.1f}" stroke-dashoffset="{c/4:.1f}" stroke-linecap="round" style="filter:drop-shadow(0 0 10px {color}) drop-shadow(0 0 22px {color}88)"/>
     </svg>
     <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center">
-      <div style="font-family:'Orbitron',monospace;font-size:2rem;font-weight:900;color:#fff;text-shadow:0 0 20px {color}">{pct:.0f}%</div>
-      <div style="font-size:.65rem;letter-spacing:3px;color:{color};font-weight:600;margin-top:2px">CONFIDENCE</div>
+      <div style="font-family:'Orbitron',monospace;font-size:2.7rem;font-weight:900;color:#fff;text-shadow:0 0 20px {color}">{pct:.0f}%</div>
+      <div style="font-size:.8rem;letter-spacing:3px;color:{color};font-weight:600;margin-top:2px">CONFIDENCE</div>
     </div>
   </div>
   <div>
-    <div style="font-size:1rem;font-weight:600;color:#fff;margin-bottom:.5rem">Song identified successfully</div>
-    <div style="font-size:.85rem;color:#c0c0d8;line-height:1.8">Hash alignment confirmed at a<br>consistent offset in the database.</div>
+    <div style="font-size:1.3rem;font-weight:600;color:#fff;margin-bottom:.6rem">Song identified successfully</div>
+    <div style="font-size:1.05rem;color:#c0c0d8;line-height:1.8">Hash alignment confirmed at a<br>consistent offset in the database.</div>
   </div>
 </div>"""
 
@@ -375,13 +390,13 @@ def runner_up_card(rank, song, score, best_score):
     art=album_art(name)
     pct=round(score/max(best_score,1)*100)
     bar=f'<div style="height:3px;background:linear-gradient(90deg,#00E5FF,#BF00FF);width:{pct}%;border-radius:99px;margin-top:6px"></div>'
-    img=f'<img src="{art}" style="width:48px;height:48px;border-radius:8px;object-fit:cover;flex-shrink:0">' if art else '<div style="width:48px;height:48px;background:#0d0d35;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0">🎵</div>'
-    return f"""<div style="display:flex;align-items:center;gap:.9rem;background:#0a0a2e;border:1px solid #ffffff0d;border-radius:12px;padding:.75rem 1rem;margin-bottom:.5rem">
-      <div style="font-family:'Orbitron',monospace;font-size:.8rem;color:#444466;font-weight:700;width:20px">#{rank}</div>
+    img=f'<img src="{art}" style="width:64px;height:64px;border-radius:8px;object-fit:cover;flex-shrink:0">' if art else '<div style="width:64px;height:64px;background:#0d0d35;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.8rem;flex-shrink:0">🎵</div>'
+    return f"""<div style="display:flex;align-items:center;gap:1.1rem;background:#0a0a2e;border:1px solid #ffffff0d;border-radius:12px;padding:1rem 1.3rem;margin-bottom:.6rem">
+      <div style="font-family:'Orbitron',monospace;font-size:1rem;color:#444466;font-weight:700;width:24px">#{rank}</div>
       {img}
       <div style="flex:1;min-width:0">
-        <div style="font-size:.85rem;font-weight:600;color:#c0c0d8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{name}</div>
-        <div style="font-size:.72rem;color:#555577;font-family:monospace">{score} hashes aligned{bar}</div>
+        <div style="font-size:1.05rem;font-weight:600;color:#c0c0d8;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{name}</div>
+        <div style="font-size:.88rem;color:#555577;font-family:monospace">{score} hashes aligned{bar}</div>
       </div>
     </div>"""
 
@@ -451,29 +466,29 @@ with tab2:
             pct=confidence_score(raw,nq,cnt)
             color=confidence_color(pct)
 
-            col_art,col_info=st.columns([1,2.2])
+            col_art,col_info=st.columns([1,1.6])
 
             with col_art:
                 if art:
-                    st.image(art,width=320)
+                    st.image(art,use_container_width=True)
                 else:
-                    st.markdown('<div style="width:320px;height:320px;background:#0a0a2e;border:1px solid #00E5FF33;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:5rem">🎵</div>',unsafe_allow_html=True)
+                    st.markdown('<div style="width:100%;aspect-ratio:1;background:#0a0a2e;border:1px solid #00E5FF33;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:6rem">🎵</div>',unsafe_allow_html=True)
 
             with col_info:
                 st.markdown(f"""
-<div style="background:linear-gradient(135deg,#0a0a2e,#0d0820);border:1px solid {color}44;border-radius:18px;padding:1.5rem;box-shadow:0 0 30px {color}0f">
-  <p style="color:{color};font-size:.72rem;letter-spacing:2px;font-family:monospace;margin:0;font-weight:600">✦ MATCH FOUND ✦</p>
-  <p style="color:#fff;font-family:'Orbitron',monospace;font-size:2.1rem;font-weight:700;margin:.2rem 0 .8rem;letter-spacing:-.5px">{name}</p>
-  <div style="display:flex;gap:1rem;flex-wrap:wrap;margin-bottom:.5rem">
-    <span style="background:#ffffff06;border:1px solid {color}22;border-radius:8px;padding:.35rem .7rem;font-family:monospace">
-      <span style="color:#b0b0cc;font-size:.7rem;font-weight:500">RUNTIME</span><br>
-      <span style="color:#fff;font-weight:700;font-size:.95rem">{rt}s</span></span>
-    <span style="background:#ffffff06;border:1px solid {color}22;border-radius:8px;padding:.35rem .7rem;font-family:monospace">
-      <span style="color:#b0b0cc;font-size:.7rem;font-weight:500">ALIGNED</span><br>
-      <span style="color:#fff;font-weight:700;font-size:.95rem">{raw} hashes</span></span>
-    <span style="background:#ffffff06;border:1px solid {color}22;border-radius:8px;padding:.35rem .7rem;font-family:monospace">
-      <span style="color:#b0b0cc;font-size:.7rem;font-weight:500">SEGMENTS</span><br>
-      <span style="color:#fff;font-weight:700;font-size:.95rem">{min(3,max(1,int(len(y)/sr)//10))}</span></span>
+<div style="background:linear-gradient(135deg,#0a0a2e,#0d0820);border:1px solid {color}44;border-radius:18px;padding:2rem;box-shadow:0 0 30px {color}0f">
+  <p style="color:{color};font-size:.85rem;letter-spacing:2px;font-family:monospace;margin:0;font-weight:600">✦ MATCH FOUND ✦</p>
+  <p style="color:#fff;font-family:'Orbitron',monospace;font-size:2.8rem;font-weight:700;margin:.3rem 0 1rem;letter-spacing:-.5px">{name}</p>
+  <div style="display:flex;gap:1.2rem;flex-wrap:wrap;margin-bottom:.7rem">
+    <span style="background:#ffffff06;border:1px solid {color}22;border-radius:8px;padding:.55rem 1rem;font-family:monospace">
+      <span style="color:#b0b0cc;font-size:.8rem;font-weight:500">RUNTIME</span><br>
+      <span style="color:#fff;font-weight:700;font-size:1.2rem">{rt}s</span></span>
+    <span style="background:#ffffff06;border:1px solid {color}22;border-radius:8px;padding:.55rem 1rem;font-family:monospace">
+      <span style="color:#b0b0cc;font-size:.8rem;font-weight:500">ALIGNED</span><br>
+      <span style="color:#fff;font-weight:700;font-size:1.2rem">{raw} hashes</span></span>
+    <span style="background:#ffffff06;border:1px solid {color}22;border-radius:8px;padding:.55rem 1rem;font-family:monospace">
+      <span style="color:#b0b0cc;font-size:.8rem;font-weight:500">SEGMENTS</span><br>
+      <span style="color:#fff;font-weight:700;font-size:1.2rem">{min(3,max(1,int(len(y)/sr)//10))}</span></span>
   </div>
   {conf_ring(pct,color)}
 </div>""", unsafe_allow_html=True)
@@ -493,7 +508,7 @@ with tab2:
             runners=[(s,sc) for s,sc in by_song.most_common(4) if s!=pred][:3]
 
             if runners:
-                st.markdown('<p style="color:#4a5070;font-size:.7rem;letter-spacing:3px;text-transform:uppercase;margin:1.2rem 0 .5rem">OTHER CANDIDATES</p>',unsafe_allow_html=True)
+                st.markdown('<p style="color:#4a5070;font-size:.85rem;letter-spacing:3px;text-transform:uppercase;margin:1.2rem 0 .6rem">OTHER CANDIDATES</p>',unsafe_allow_html=True)
 
                 for rank,(song,score) in enumerate(runners,2):
                     st.markdown(runner_up_card(rank,song,score,raw),unsafe_allow_html=True)
@@ -519,7 +534,7 @@ with tab2:
 
             if pred!="No Match":
                 with st.expander(" Offset Histogram",expanded=True):
-                    st.pyplot(plot_offset_histogram(offsets,pred),use_container_width=True)
+                    st.pyplot(plot_offset_histogram(cnt,pred),use_container_width=True)
 
         else:
             st.warning("Not enough peaks detected.")
