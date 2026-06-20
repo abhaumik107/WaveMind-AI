@@ -44,12 +44,15 @@ audio{filter:invert(1) hue-rotate(180deg);width:100%}
 </style>""", unsafe_allow_html=True)
 
 st.markdown("""
-<div style="text-align:center;padding:2.4rem 0 1.2rem">
-  <h1 style="font-size:2.3rem;letter-spacing:4px;margin-bottom:.3rem">🌊 WAVEMIND</h1>
-  <p style="color:#6a6a8e;font-size:.78rem;letter-spacing:3px;margin:0">AUDIO FINGERPRINTING &nbsp;·&nbsp; EE200</p>
+<div style="position:relative;text-align:center;padding:4rem 0 2rem;overflow:hidden">
+  <div style="position:absolute;top:-120px;left:50%;transform:translateX(-50%);width:520px;height:320px;background:radial-gradient(closest-side,#00C2D633,transparent);pointer-events:none"></div>
+
+  <h1 style="position:relative;font-size:4.2rem;letter-spacing:10px;margin-bottom:.6rem;text-shadow:0 0 18px #00C2D6aa,0 0 46px #00C2D655">🌊 WAVEMIND</h1>
+
+  <p style="position:relative;display:inline-block;color:#9adbe6;font-size:.8rem;letter-spacing:4px;margin:0;padding:.4rem 1.1rem;border:1px solid #00C2D633;border-radius:99px;background:#00C2D60a">AUDIO FINGERPRINTING &nbsp;·&nbsp; EE200</p>
 </div>
 
-<div style="height:1px;background:#ffffff12;margin:0 0 1.5rem"></div>
+<div style="height:2px;margin:0 0 1.8rem;background:#00C2D6;box-shadow:0 0 12px #00C2D6aa,0 0 28px #00C2D655"></div>
 """, unsafe_allow_html=True)
 
 # Database
@@ -501,4 +504,3 @@ with tab3:
 
 st.markdown("""<div style="height:1px;background:#ffffff12;margin:2rem 0 1rem"></div>
 <div style="text-align:center;padding-bottom:1rem"><p style="font-family:'Orbitron',monospace;color:#3a3a54;letter-spacing:4px;font-size:.72rem">🌊 WAVEMIND &nbsp;·&nbsp; EE200</p></div>""",unsafe_allow_html=True)
-
